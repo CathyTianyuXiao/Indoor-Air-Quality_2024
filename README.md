@@ -8,5 +8,5 @@
 **Format:**  
 `Trial#_date_type_name`
 **Example:**  
-`#2. 060424_8h_CX`
-`#2. 060524_decay_CX`
+`#2.060424_8h_CX`
+`#2.060524_decay_CX`
