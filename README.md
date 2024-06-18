@@ -4,6 +4,7 @@
 `Year(time)_Title_Type_Name`
 **Example:**  
 `2018 Crystals Project - SCoRe Poster - Jose and Prakhar`
+`2024_IAQ_Labnotebook_CathyXiao`
 
 **Format:**  
 `Trial#_date_type_name`
