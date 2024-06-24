@@ -14,29 +14,28 @@ function getvalues(file)
     Cout = [row.Cout for row in file[1:n]]  # Assuming a column 'Cout' exists
     S = [row.S for row in file[1:n]]  # Assuming a column 'S' exists
     Q = [row.Q for row in file[1:n]]  # Assuming a column 'Q' exists
-    V = [row.V for row in file[1:n]]  # Assuming a column 'V' exists
-    return C, Cout, S, Q, V
+    return C, Cout, S, Q
 end
 
 function model(t, p)
-    C, Cout, Q, S, V = p
-    return (-V / Q) * log.(C0 - Cout) .- log.(C .* Q + Cout .* Q + S) .* V ./ Q .+ t  # Broadcasting operations
+    C, Cout, Q, S = p
+    V = 52
+    return (-V / Q) .* log.(C0 - Cout) .- log.(C .* Q + Cout .* Q + S) .* V ./ Q .+ t  # Broadcasting operations
 end
 
-function getnonlinearfit(C, Cout, S, Q, V)
+function getnonlinearfit(C, Cout, S, Q)
     n = length(C)  # Number of data points
     t = 1:n  # Time points, assuming these are your x-values
-    p0 = [mean(C), mean(Cout), mean(Q), mean(S), mean(V)]  # Initial parameter guesses
+    p0 = [mean(C), mean(Cout), mean(Q), mean(S)]  # Initial parameter guesses, omitting V since it's constant
 
     fit = curve_fit(model, t, zeros(n), p0)  # zeros(n) should be replaced with your actual data
     return fit
 end
 
-
 function plotfit()
     file = loadfile()
-    C, Cout, S, Q, V = getvalues(file)
-    fit = getnonlinearfit(C, Cout, S, Q, V)
+    C, Cout, S, Q = getvalues(file)
+    fit = getnonlinearfit(C, Cout, S, Q)
 
     n = length(C)
     t = 1:n
