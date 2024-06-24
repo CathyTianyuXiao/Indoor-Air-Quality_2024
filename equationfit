@@ -1,26 +1,47 @@
 using CSV
 using Plots
-using LsqFit  # Add this package for nonlinear fitting
+using LsqFit  # Package for nonlinear fitting
 
-# Define the model function
-function model(t, p)
-    C, Cout, Q, n, S, V = p
-    -log(C*Q + Cout*Q + n*S*V) / Q + (V / Q) * log(C0 - Cout)  # B is calculated inside
+
+function loadfile()
+    file = CSV.File("20240610.csv")
+    return file
 end
 
-# Example data (You should replace this with your actual data loading code)
-file = loadfile()  # Assuming this function loads your data correctly
-co2 = getco2values(file)  # Assuming this extracts the CO2 concentration data
-t = 1:length(co2)  # Time variable
+function getvalues(file)
+    n = 197  # Assuming first 197 entries are relevant
+    C = [row.C for row in file[1:n]]  # Assuming a column 'C' exists
+    Cout = [row.Cout for row in file[1:n]]  # Assuming a column 'Cout' exists
+    S = [row.S for row in file[1:n]]  # Assuming a column 'S' exists
+    Q = [row.Q for row in file[1:n]]  # Assuming a column 'Q' exists
+    V = [row.V for row in file[1:n]]  # Assuming a column 'V' exists
+    return C, Cout, S, Q, V
+end
 
-# Initial parameter guesses
-p0 = [initial_C, initial_Cout, initial_Q, initial_n, initial_S, initial_V]
+function model(t, p)
+    C, Cout, Q, S, V = p
+    return (-V / Q) * log.(C0 - Cout) .- log.(C .* Q + Cout .* Q + S) .* V ./ Q .+ t  # Broadcasting operations
+end
 
-fit = curve_fit(model, t, co2, p0)
+function getnonlinearfit(C, Cout, S, Q, V)
+    n = length(C)  # Number of data points
+    t = 1:n  # Time points, assuming these are your x-values
+    p0 = [mean(C), mean(Cout), mean(Q), mean(S), mean(V)]  # Initial parameter guesses
 
-# Generate fitted data using the optimized parameters
-fitted_co2 = model(t, coef(fit))
+    fit = curve_fit(model, t, zeros(n), p0)  # zeros(n) should be replaced with your actual data
+    return fit
+end
 
-# Plotting
-plot(t, co2, seriestype=:scatter, label="Data")
-plot!(t, fitted_co2, label="Fitted Model")
+
+function plotfit()
+    file = loadfile()
+    C, Cout, S, Q, V = getvalues(file)
+    fit = getnonlinearfit(C, Cout, S, Q, V)
+
+    n = length(C)
+    t = 1:n
+    data = model(t, coef(fit))  # Calculate model data
+
+    plot(t, data, label="Fitted Model", linewidth=2)
+    scatter!(t, C, label="Original Data")  # Assuming 'C' as the dependent variable
+end
