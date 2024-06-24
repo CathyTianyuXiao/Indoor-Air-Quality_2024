@@ -60,13 +60,13 @@ function plotnonlinearfit() # Calculate and plot a non-linear fit
 
 file = loadfile()
 co2 = getco2values(file)
-n=length(co2)
-t=1:n
-p0 = [1.0, 0.001, 100.0]  # Initial guesses for the parameters
 
-fit = getnonlinearfit()
+fit = getnonlinearfit(co2)
 
 fig=plot(t,co2,seriestype=:scatter,xlabel="time (minutes)",ylabel="co2 (ppm)",label="Data")
+
+# Generate the fitted data using the model and the best-fit parameters found by curve_fit
+    fitted_data = nonlinear_model(t, coef(fit))  # This is crucial
 
 plot!(fit,t[1],t[end],label="Fit",linewidth=3)
 
