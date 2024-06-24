@@ -59,6 +59,7 @@ function plotnonlinearfit() # Calculate and plot a non-linear fit
 
 file = loadfile()
 co2 = getco2values(file)
+n=length(co2)
 t=1:n
 
 fit = getnonlinearfit()
