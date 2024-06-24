@@ -21,10 +21,9 @@ const Q = 1.9      # Fixed Q value
 
 # Model for nonlinear fitting
 function model(t, p)
-    C = p
-    V = 52  # Fixed value for V
-    C0 = C[1]  # Assuming the first data point represents the initial CO2 concentration
-    return (-V / Q) .* log.(C0 - Cout) .- log.(C .* Q + Cout .* Q + S) .* V ./ Q .+ t
+    C = ((C0 - Cout) * -exp(-Q/V * t) + Cout * Q - S) / Q
+    return C
+
 end
 
 # Nonlinear fitting process
