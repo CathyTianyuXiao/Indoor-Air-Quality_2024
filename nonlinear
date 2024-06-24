@@ -61,6 +61,7 @@ file = loadfile()
 co2 = getco2values(file)
 n=length(co2)
 t=1:n
+p0 = [1.0, 0.001, 100.0]  # Initial guesses for the parameters
 
 fit = getnonlinearfit()
 
