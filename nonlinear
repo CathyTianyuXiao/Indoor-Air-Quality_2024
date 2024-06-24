@@ -63,9 +63,9 @@ t=1:n
 
 fit = getnonlinearfit()
 
-fig = plot(t, co2, seriestype=:scatter, xlabel="time (minutes
+fig=plot(t,co2,seriestype=:scatter,xlabel="time (minutes)",ylabel="co2 (ppm)",label="Data")
 
-plot!(fit,t[1],t[end],label="Quadratic Fit",linewidth=3)
+plot!(fit,t[1],t[end],label="Fit",linewidth=3)
 
 return fig
 end
