@@ -1,0 +1,26 @@
+using CSV
+using Plots
+using LsqFit  # Add this package for nonlinear fitting
+
+# Define the model function
+function model(t, p)
+    C, Cout, Q, n, S, V = p
+    -log(C*Q + Cout*Q + n*S*V) / Q + (V / Q) * log(C0 - Cout)  # B is calculated inside
+end
+
+# Example data (You should replace this with your actual data loading code)
+file = loadfile()  # Assuming this function loads your data correctly
+co2 = getco2values(file)  # Assuming this extracts the CO2 concentration data
+t = 1:length(co2)  # Time variable
+
+# Initial parameter guesses
+p0 = [initial_C, initial_Cout, initial_Q, initial_n, initial_S, initial_V]
+
+fit = curve_fit(model, t, co2, p0)
+
+# Generate fitted data using the optimized parameters
+fitted_co2 = model(t, coef(fit))
+
+# Plotting
+plot(t, co2, seriestype=:scatter, label="Data")
+plot!(t, fitted_co2, label="Fitted Model")
