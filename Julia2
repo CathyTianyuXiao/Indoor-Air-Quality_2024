@@ -45,7 +45,7 @@ co2=getco2values(file)
 n=length(co2)
 t=1:n
 
-quadfit=fit(t,co2,2)
+quadfit=fit(t,co2,1)
 
 return quadfit
 end
