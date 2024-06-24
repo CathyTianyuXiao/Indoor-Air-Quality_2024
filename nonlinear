@@ -47,6 +47,7 @@ function getnonlinearfit() # Calculate non-linear fit for data
 
 file = loadfile()
 co2 = getco2values(file)
+n=length(co2)
 t=1:n
 p0 = [1.0, 0.001, 100.0] # Initial guesses for the parameters
 fit = curve_fit(nonlinear_model, t, co2, p0)
