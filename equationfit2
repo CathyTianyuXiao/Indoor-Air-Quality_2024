@@ -25,9 +25,9 @@ const Cout = 425   # Fixed Cout value
 const Q = 1.9      # Fixed Q value
 
 # Model for nonlinear fitting
-function model(t, P)
-    C = ((C0 - Cout) * -exp(-Q/V * t) + Cout * Q - P) / Q
-P0=1.0
+function model(t, S)
+    C = ((C0 - Cout) * -exp(-Q/V * t) + Cout * Q - S) / Q
+S0=1.0
     return C
 
 end
@@ -35,8 +35,7 @@ end
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
-    p0 = [mean(C)]   # Initial guess for C
-    fit = curve_fit((t, p) -> model(t, p), t, C, p0)  # Using a lambda to pass single-parameter model
+    fit = curve_fit((t, S) -> model(t, S), t, C, S0)  # Using a lambda to pass single-parameter model
     return fit
 end
 
