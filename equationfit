@@ -11,10 +11,10 @@ end
 # Extract relevant values from the file
 function getvalues(file)
    n=197 #get first 197 entries before time jump
-co2=zeros(n) #allocate array for values
+C=zeros(n) #allocate array for values
 
 for i=1:n #loop to extract co2 values
-co2[i]=file[i][4]
+C[i]=file[i][4]
 end
 
 return C
