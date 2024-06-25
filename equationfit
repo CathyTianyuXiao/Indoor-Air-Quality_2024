@@ -10,8 +10,14 @@ end
 
 # Extract relevant values from the file
 function getvalues(file)
-    C = [row."CO2(ppm)" for row in file]  # Using CO2(ppm) as C
-    return C
+   n=197 #get first 197 entries before time jump
+co2=zeros(n) #allocate array for values
+
+for i=1:n #loop to extract co2 values
+co2[i]=file[i][4]
+end
+
+return C
 end
 
 # Constants
@@ -28,7 +34,7 @@ end
 
 # Nonlinear fitting process
 function getnonlinearfit(C)
-    t = 1:length(C)  # Creating a time vector for each data point
+    t = 1:n  # Creating a time vector for each data point
     p0 = [mean(C)]   # Initial guess for C
     fit = curve_fit((t, p) -> model(t, p), t, C, p0)  # Using a lambda to pass single-parameter model
     return fit
@@ -40,7 +46,7 @@ function plotfit()
     C = getvalues(file)
     fit = getnonlinearfit(C)
 
-    t = 1:length(C)
+    t = 1:n
     fitted_data = model(t, coef(fit))  # Generating model data using fitted parameters
 
     plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
