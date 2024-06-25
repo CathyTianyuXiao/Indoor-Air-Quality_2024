@@ -26,7 +26,7 @@ const S = 1.0      # Placeholder value for S, adjust as needed
 const Q = 1.9      # Fixed Q value
 
 # Model for nonlinear fitting
-function model(t, p)
+function model(t, S)
     C = ((C0 - Cout) * -exp(-Q/V * t) + Cout * Q - S) / Q
     return C
 
