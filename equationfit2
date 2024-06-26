@@ -20,7 +20,7 @@ for i=1:n #loop to extract co2 values
 C[i]=file[i][4]
 end
 
-return S[0]
+return s0
 end
 
 # Constants
@@ -30,17 +30,17 @@ const V = 52
 const C0 = 435
 
 # Model for nonlinear fitting
-function model(t, S)
-    C = ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + S[0]) / Q
-S[0] = [1.0]
-    return S[0]
+function model(t, s)
+    C = ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + s0) / Q
+s0 = [1.0]
+    return s0
 
 end
 
 # Nonlinear fitting process
 function getnonlinearfit()
     t = 1:n  # Creating a time vector for each data point
-    fit = curve_fit((t, S) -> model(t, S), t, C, S[0])  # Using a lambda to pass single-parameter model
+    fit = curve_fit((t, s) -> model(t, s), t, C, s0)  # Using a lambda to pass single-parameter model
     return fit
 end
 
