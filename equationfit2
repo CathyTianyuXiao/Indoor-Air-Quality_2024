@@ -31,7 +31,7 @@ const V=52
 
 # Model for nonlinear fitting
 function model(t, S)
-    C = ((C0 - Cout) * -exp(-Q/V * t) + Cout * Q + S) / Q
+    C = ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + S) / Q
 S0=1.0
     return C
 
