@@ -32,12 +32,12 @@ const C0 = 435
 function model(t, p)
 p = p[1]
     return @. ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + p[1]) / Q
+p0 = [1.0]  # Initial guess for s
 end
 
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
-    p0 = [1.0]  # Initial guess for s
     fit = curve_fit(model, t, C, p)
     return fit
 end
