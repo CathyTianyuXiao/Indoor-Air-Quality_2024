@@ -2,6 +2,9 @@ using CSV
 using Plots
 using LsqFit  # Ensure this package is installed for nonlinear fitting
 
+
+n=197 #get first 197 entries before time jump
+
 # Load CSV data
 function loadfile()
     file = CSV.File("20240610.csv")  # Adjust the filename as necessary
@@ -10,7 +13,7 @@ end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n=197 #get first 197 entries before time jump
+   pass
 C=zeros(n) #allocate array for values
 
 for i=1:n #loop to extract co2 values
