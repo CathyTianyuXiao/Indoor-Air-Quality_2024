@@ -38,7 +38,7 @@ end
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
-    fit = curve_fit(model, t, C, p)
+    fit = curve_fit(model, t, C, p0)
     return fit
 end
 
