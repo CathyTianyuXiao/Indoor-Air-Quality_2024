@@ -36,7 +36,7 @@ end
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
-    p0 = [1.0]  # Initial guess for the parameter
+    p0 = [1.0]  # Initial guess for s
     fit = curve_fit(model, t, C, p0)
     return fit
 end
