@@ -31,7 +31,7 @@ const C0 = 435
 # Model for nonlinear fitting
 function model(t, p)
     s = p[1]  # s is now a parameter
-    return @. ((C0 - Cout) * exp((-Q*t)/V) + Cout + s/Q)
+    return @. ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + s) / Q
 end
 
 # Nonlinear fitting process
