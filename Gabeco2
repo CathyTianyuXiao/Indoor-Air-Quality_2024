@@ -19,7 +19,7 @@ function getvalues(file)
        C[i] = file[i][4]
    end
 
-   return C  # Return C instead of s
+   return C
 end
 
 # Constants
@@ -30,7 +30,6 @@ const C0 = 435
 
 # Model for nonlinear fitting
 function model(t, p)
-s = p[1]
     return @. ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + p[1]) / Q
 end
 
