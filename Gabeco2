@@ -30,14 +30,13 @@ const C0 = 435
 
 # Model for nonlinear fitting
 function model(t, p)
-p = p[1]
-    return @. ((C0 - Cout) * -exp((-Q*t)/V) + Cout * Q + p[1]) / Q
-p0 = [1.0]  # Initial guess for s
+    return @. ((C0 - Cout) * exp((-Q*t)/V) + Cout * Q + p[1]) / Q
 end
 
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
+    p0 = [1.0]  # Initial guess for the parameter
     fit = curve_fit(model, t, C, p0)
     return fit
 end
