@@ -4,6 +4,7 @@ using LsqFit  # Ensure this package is installed for nonlinear fitting
 
 
 n=197 #get first 197 entries before time jump
+S0=1.0
 
 # Load CSV data
 function loadfile()
