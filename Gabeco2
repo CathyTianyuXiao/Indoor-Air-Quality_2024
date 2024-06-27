@@ -30,7 +30,7 @@ const C0 = 435
 
 # Model for nonlinear fitting
 function model(t, p)
-    return @. (exp(-((Q*t)/V))*((C0*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-(p[1])+(exp((Q*t)/V)*p[2])))/Q
+    return @. (exp(-((Q*t)/V))*((C0*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-($p[1])+(exp((Q*t)/V)*$p[2])))/Q
 end
 
 # Nonlinear fitting process
