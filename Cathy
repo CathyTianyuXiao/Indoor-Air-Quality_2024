@@ -2,17 +2,17 @@ using CSV
 using Plots
 using LsqFit  # Ensure this package is installed for nonlinear fitting
 
-n = 197 #get first 197 entries before time jump
+n = 572 #get first 197 entries before time jump
 
 # Load CSV data
 function loadfile()
-    file = CSV.File("20240610.csv")  # Adjust the filename as necessary
+    file = CSV.File("#8R Jun10_9h_CX")  # Adjust the filename as necessary
     return file
 end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n = 197
+   n = 572
    C = zeros(n) #allocate array for values
 
    for i = 1:n #loop to extract co2 values
@@ -30,13 +30,13 @@ const C0 = 435
 
 # Model for nonlinear fitting
 function model(t, p)
-    return @. (exp(-((Q*t)/V))*((C*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-($p[1])+(exp((Q*t)/V)*$p[2])))/Q
+    return @. (exp(-((Q*t)/V))*((C0*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-($p[1])+(exp((Q*t)/V)*$p[1])))/Q
 end
 
 # Nonlinear fitting process
 function getnonlinearfit(C)
     t = 1:n  # Creating a time vector for each data point
-    p0 = [1.0,1.0]  # Initial guess for s
+    p0 = [1.0]  # Initial guess for s
     fit = curve_fit(model, t, C, p0)
     return fit
 end
