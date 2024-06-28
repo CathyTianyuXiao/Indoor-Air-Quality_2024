@@ -24,9 +24,9 @@ end
 
 # Constants
 const Cout = 425   # Fixed Cout value
-const Q = 0.066      # Fixed Q value
-const V = 43
-const C0 = 837
+const Q = 0.19     # Fixed Q value
+const V = 51.5
+const C0 = 553
 
 # Model for nonlinear fitting
 function model(t, p)
