@@ -2,7 +2,7 @@ using CSV
 using Plots
 using LsqFit  # Ensure this package is installed for nonlinear fitting
 
-n = 572 #get first 197 entries before time jump
+n = 505 #get first 197 entries before time jump
 
 # Load CSV data
 function loadfile()
