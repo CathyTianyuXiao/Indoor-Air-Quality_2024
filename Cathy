@@ -50,13 +50,6 @@ function plotfit()
     t = 1:n
     fitted_data = model(t, coef(fit))  # Generating model data using fitted parameters
 
-  # Extract S value
-    S = coef(fit)[1]
-    println("Fitted S value: ", S)
-
     plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
     plot!(t, fitted_data, label="Fitted Model", linewidth=2, color=:red)
-end
-
-return S  # Return the S value if you want to use it elsewhere
 end
