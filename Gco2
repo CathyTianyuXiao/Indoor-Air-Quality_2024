@@ -1,1 +1,69 @@
+using CSV
+using Plots
+using LsqFit  # Ensure this package is installed for nonlinear fitting
 
+n = 503 #get first 503 entries before time jump
+
+# Load CSV data
+function loadfile()
+    file = CSV.File("bn2.csv")  # Adjust the filename as necessary
+    return file
+end
+
+# Extract relevant values from the file
+function getvalues(file)
+   n = 503
+   C = zeros(n) #allocate array for values
+
+   for i = 1:n #loop to extract co2 values
+       C[i] = file[i][4]
+   end
+
+   return C
+end
+
+# Constants
+const Cout = 425   # Fixed Cout value
+const Q = 0.0542      # Fixed Q value
+const V = 31.55
+const C0 = 460
+
+# Model for nonlinear fitting
+function model(t, p)
+    return @. (exp(-((Q*t)/V))*((C0*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-($p[1])+(exp((Q*t)/V)*$p[1])))/Q
+end
+
+# Nonlinear fitting process
+function getnonlinearfit(C)
+    t = 1:n  # Creating a time vector for each data point
+    p0 = [1.0]  # Initial guess for s
+    fit = curve_fit(model, t, C, p0)
+    return fit
+end
+
+# Plotting function to visualize the data and fit
+function plotfit()
+    file = loadfile()
+    C = getvalues(file)
+    fit = getnonlinearfit(C)
+    
+    t = 1:n
+    fitted_data = model(t, coef(fit))  # Generating model data using fitted parameters
+    
+    p = plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
+    plot!(p, t, fitted_data, label="Fitted Model", linewidth=2, color=:red)
+    
+    equation = get_fitted_equation(fit)
+    
+    return p, equation
+end
+
+function get_fitted_equation(fit)
+    s = coef(fit)[1]  # Extract the fitted 's' parameter
+    return "C(t) = (exp(-((Q*t)/V)) * ((C0*Q) - (Cout*Q) + (Cout*exp((Q*t)/V)*Q) - ($s) + (exp((Q*t)/V)*$s))) / Q"
+end
+
+p, equation = plotfit()
+display(p)
+println("Fitted equation: ", equation)
+end
