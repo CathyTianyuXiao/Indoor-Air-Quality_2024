@@ -12,7 +12,7 @@ end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n = 505
+   n = 504
    C = zeros(n) #allocate array for values
 
    for i = 1:n #loop to extract co2 values
