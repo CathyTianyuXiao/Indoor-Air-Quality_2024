@@ -66,4 +66,3 @@ end
 p, equation = plotfit()
 display(p)
 println("Fitted equation: ", equation)
-end
