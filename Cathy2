@@ -41,7 +41,6 @@ function getnonlinearfit(C)
     return fit
 end
 
-# Plotting function to visualize the data and fit
 function plotfit()
     file = loadfile()
     C = getvalues(file)
@@ -49,15 +48,23 @@ function plotfit()
     
     t = 1:n
     fitted_data = model(t, coef(fit))  # Generating model data using fitted parameters
-
-# Extract S value and its standard error
-    S = coef(fit)[1]
-    S_error = stderror(fit)[1]
-    println("Fitted S value: ", S, " ± ", S_error)
     
-
-    plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
-    plot!(t, fitted_data, label="Fitted Model", linewidth=2, color=:red)
-
-return S, S_error  # Return both S and its standard error
+    # Extract S value
+    S = coef(fit)[1]
+    
+    # Create the plot
+    p = plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
+    plot!(p, t, fitted_data, label="Fitted Model", linewidth=2, color=:red)
+    
+    # Add the fitted equation as text on the plot
+    equation = "CO₂(t) = (e^(-($Q*t)/$V) * (($C0*$Q) - ($Cout*$Q) + ($Cout*e^(($Q*t)/$V)*$Q) - $S + (e^(($Q*t)/$V)*$S))) / $Q"
+    annotate!(p, 0.5, 1.05, text(equation, :left, 8, :black), coord=:plot)
+    
+    # Add the fitted S value as text
+    annotate!(p, 0.5, 1.10, text("Fitted S = $(round(S, digits=4))", :left, 10, :black), coord=:plot)
+    
+    # Display the plot
+    display(p)
+    
+    return S  # Return the S value if needed
 end
