@@ -6,13 +6,13 @@ n = 572 #get first 197 entries before time jump
 
 # Load CSV data
 function loadfile()
-    file = CSV.File("#8R Jun10_9h_CX.csv")  # Adjust the filename as necessary
+    file = CSV.File("#4. Jun5_8h_CX.csv")  # Adjust the filename as necessary
     return file
 end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n = 572
+   n = 505
    C = zeros(n) #allocate array for values
 
    for i = 1:n #loop to extract co2 values
