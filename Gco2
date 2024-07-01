@@ -67,6 +67,6 @@ p1, equation = plotfit()
 display(p1)
 println("Fitted equation: ", equation)
 
-# Plot extended to 1000 time units
-p2, _ = plotfit(1000)
+# Plot extended to 5000 time units
+p2, _ = plotfit(5000)
 display(p2)
