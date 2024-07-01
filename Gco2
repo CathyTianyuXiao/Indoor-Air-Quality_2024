@@ -22,7 +22,7 @@ end
 
 # Constants
 const Cout = 425   # Fixed Cout value
-const Q = 0.0542      # Fixed Q value
+const Q = 0.0549      # Fixed Q value
 const V = 31.55
 const C0 = 460
 
