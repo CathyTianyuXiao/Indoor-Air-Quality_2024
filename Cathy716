@@ -1,0 +1,70 @@
+using CSV
+using Plots
+using LsqFit  # Ensure this package is installed for nonlinear fitting
+
+n = 504 #get first 197 entries before time jump
+
+# Load CSV data
+function loadfile()
+    file = CSV.File("#4. Jun5_8h_CX.csv")  # Adjust the filename as necessary
+    return file
+end
+
+# Extract relevant values from the file
+function getvalues(file)
+   n = 504
+   C = zeros(n) #allocate array for values
+
+   for i = 1:n #loop to extract co2 values
+       C[i] = file[i][4]
+   end
+
+   return C
+end
+
+# Constants
+const Cout = 425   # Fixed Cout value
+const Q = 0.19     # Fixed Q value
+const V = 51.5
+const C0 = 553
+
+# Model for nonlinear fitting
+function model(t, p)
+    return @. (exp(-((Q*t)/V))*((C0*Q)-(Cout*Q)+(Cout*exp((Q*t)/V)*Q)-($p[1])+(exp((Q*t)/V)*$p[1])))/Q
+end
+
+# Nonlinear fitting process
+function getnonlinearfit(C)
+    t = 1:n  # Creating a time vector for each data point
+    p0 = [1.0]  # Initial guess for s
+    fit = curve_fit(model, t, C, p0)
+    return fit
+end
+
+function plotfit()
+    file = loadfile()
+    C = getvalues(file)
+    fit = getnonlinearfit(C)
+    
+    t = 1:n
+    fitted_data = model(t, coef(fit))  # Generating model data using fitted parameters
+    
+    # Extract S value
+    S = coef(fit)[1]
+    
+    # Create the plot
+    p = plot(t, C, seriestype=:scatter, label="Measured CO2", xlabel="Time", ylabel="CO2 (ppm)")
+    plot!(p, t, fitted_data, label="Fitted Model", linewidth=2, color=:red)
+    
+    # Add the fitted equation as text on the plot
+    equation = "CO₂(t) = (e^(-($Q*t)/$V) * (($C0*$Q) - ($Cout*$Q) + ($Cout*e^(($Q*t)/$V)*$Q) - $S + (e^(($Q*t)/$V)*$S))) / $Q"
+    annotate!(p, 0.5, 1.05, text(equation, :left, 8, :black), coord=:plot)
+    
+    # Add the fitted S value as text
+    annotate!(p, 0.5, 1.10, text("Fitted S = $(round(S, digits=4))", :left, 10, :black), coord=:plot)
+    
+    # Display the plot
+    display(p)
+    
+    return S  # Return the S value if needed
+end
