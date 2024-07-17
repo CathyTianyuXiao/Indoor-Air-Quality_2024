@@ -2,7 +2,7 @@ using CSV
 using Plots
 using LsqFit  # Ensure this package is installed for nonlinear fitting
 
-n = 504 #get first 197 entries before time jump
+n = 599 #get first 197 entries before time jump
 
 # Load CSV data
 function loadfile()
@@ -12,7 +12,7 @@ end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n = 600
+   n = 599
    C = zeros(n) #allocate array for values
 
    for i = 1:n #loop to extract co2 values
