@@ -6,13 +6,13 @@ n = 504 #get first 197 entries before time jump
 
 # Load CSV data
 function loadfile()
-    file = CSV.File("#4. Jun5_8h_CX.csv")  # Adjust the filename as necessary
+    file = CSV.File("716.csv")  # Adjust the filename as necessary
     return file
 end
 
 # Extract relevant values from the file
 function getvalues(file)
-   n = 504
+   n = 600
    C = zeros(n) #allocate array for values
 
    for i = 1:n #loop to extract co2 values
@@ -24,9 +24,9 @@ end
 
 # Constants
 const Cout = 425   # Fixed Cout value
-const Q = 0.19     # Fixed Q value
-const V = 51.5
-const C0 = 553
+const Q = 0.06   # Fixed Q value
+const V = 50
+const C0 = 450.984406
 
 # Model for nonlinear fitting
 function model(t, p)
